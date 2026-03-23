@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulazione Monte Carlo - Stima di π</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+            font-family: Arial, sans-serif;
+        }
+        canvas {
+            border: 2px solid #333;
+            background-color: white;
+            margin: 20px;
+        }
+        #info {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        #piValue {
+            font-size: 24px;
+            font-weight: bold;
+            color: #2c3e50;
+            margin: 10px 0;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover {
+            background-color: #2980b9;
+        }
+    </style>
+</head>
+<body>
+    <h1>Simulazione Monte Carlo per stimare π</h1>
+    <canvas id="turtle" width="1000" height="1000"></canvas>
+    <div id="info">
+        <div id="piValue">π ≈ 0</div>
+        <div>Punti totali: <span id="total">0</span></div>
+        <div>Punti dentro il cerchio: <span id="inside">0</span></div>
+        <button onclick="location.reload()">Riavvia</button>
+    </div>
+
+    <script>
+        let x = 0;
+        let y = 0;
+        let dentro = 0;
+        let spari = 100000;
+        let radius = 500;
+        let pi = 0;
+        
+        const canvas = document.getElementById("turtle");
+        const ctx = canvas.getContext("2d");
+        
+        const turtle = {
+            x: 0,
+            y: 0,
+            angle: 0,
+            pendown: true,
+            color: "lightblue",
+            name: "tartaruga",
+            turn: (a) => {
+                turtle.angle += a;
+            },
+            forward: (p) => {
+                ctx.moveTo(turtle.x, turtle.y);
+                var x2 = turtle.x + p * Math.cos(turtle.angle * (Math.PI / 180));
+                var y2 = turtle.y + p * Math.sin(turtle.angle * (Math.PI / 180));
+                
+                if (turtle.pendown === true) {
+                    ctx.lineTo(x2, y2);
+                    ctx.stroke();
+                } else {
+                    ctx.moveTo(x2, y2);
+                }
+                turtle.x = x2;
+                turtle.y = y2;
+            },
+            move: (x, y) => {
+                turtle.x = turtle.x + x;
+                turtle.y = turtle.y + y;
+                ctx.moveTo(turtle.x, turtle.y);
+            }
+        }
+        
+        let square = function() {
+            ctx.strokeStyle = "black";
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            turtle.turn(90);
+            turtle.forward(1000);
+            turtle.turn(-90);
+            turtle.forward(1000);
+            turtle.turn(-90);
+            turtle.forward(1000);
+            turtle.turn(-90);
+            turtle.forward(1000);
+        }
+        
+        let circle = function(x2, y2, radios) {
+            ctx.beginPath();
+            ctx.arc(x2, y2, radios, 0, 2 * Math.PI);
+            ctx.stroke();
+        }
+        
+        let drawPoint = function(x, y, isInside) {
+            ctx.fillStyle = isInside ? "red" : "blue";
+            ctx.fillRect(x, y, 1, 1);
+        }
+        
+        let stima = function(spari) {
+            // Disegna i punti in batch per migliorare le performance
+            let batchSize = 1000;
+            let currentPoint = 0;
+            
+            function drawBatch() {
+                for (let i = 0; i < batchSize && currentPoint < spari; i++, currentPoint++) {
+                    x = Math.random() * 1000;
+                    y = Math.random() * 1000;
+                    
+                    // Calcola la distanza dal centro (500, 500)
+                    let dx = x - 500;
+                    let dy = y - 500;
+                    let distance = Math.sqrt(dx * dx + dy * dy);
+                    
+                    if (distance <= radius) {
+                        dentro++;
+                        drawPoint(x, y, true);
+                    } else {
+                        drawPoint(x, y, false);
+                    }
+                }
+                
+                // Aggiorna la stima di π
+                pi = 4 * (dentro / currentPoint);
+                document.getElementById("piValue").textContent = "π ≈ " + pi.toFixed(6);
+                document.getElementById("total").textContent = currentPoint;
+                document.getElementById("inside").textContent = dentro;
+                
+                // Continua con il prossimo batch
+                if (currentPoint < spari) {
+                    requestAnimationFrame(drawBatch);
+                } else {
+                    console.log("Stima finale di π:", pi);
+                    console.log("Errore:", Math.abs(pi - Math.PI));
+                }
+            }
+            
+            drawBatch();
+        }
+        
+        // Esegui la simulazione
+        ctx.lineWidth = 2;
+        square();
+        ctx.strokeStyle = "green";
+        ctx.lineWidth = 3;
+        circle(500, 500, radius);
+        
+        // Inizia la stima
+        stima(spari);
+    </script>
+</body>
+</html>

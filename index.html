@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bentama Ahmed Ramzi- Progetti</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #000000 0%, #44005f 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            color: white;
+            margin-bottom: 60px;
+            animation: fadeInDown 0.8s ease-out;
+        }
+
+        h1 {
+            font-size: 3em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .subtitle {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .project-card {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            animation: fadeInUp 0.8s ease-out;
+            animation-fill-mode: both;
+        }
+
+        .project-card:nth-child(1) { animation-delay: 0.1s; }
+        .project-card:nth-child(2) { animation-delay: 0.2s; }
+        .project-card:nth-child(3) { animation-delay: 0.3s; }
+        .project-card:nth-child(4) { animation-delay: 0.1s; }
+        .project-card:nth-child(5) { animation-delay: 0.2s; }
+        .project-card:nth-child(6) { animation-delay: 0.3s; }
+
+        .no-animation {
+            animation-play-state: paused !important;
+        }          
+
+
+
+        .project-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.4);
+        }
+
+        .project-preview {
+            height: 250px;
+            background: linear-gradient(135deg, #a200ff 0%, #00eeff 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .project-preview::before {
+            content: '';
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+        }
+
+        .preview-icon {
+            font-size: 80px;
+            color: white;
+            z-index: 1;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .project-card:nth-child(1) .project-preview {
+            background: linear-gradient(135deg, #000000 0%, #0026ff 100%);
+        }
+
+        .project-card:nth-child(2) .project-preview {
+            background: linear-gradient(135deg, #000000 0%, #00ffc8 100%);
+        }
+
+        .project-card:nth-child(3) .project-preview {
+            background: linear-gradient(135deg, #000000 0%, #3cff00 100%);
+        }
+
+        .project-card:nth-child(4) .project-preview {
+            background: linear-gradient(135deg, #000000 0%, #ff0000 100%);
+        }
+        .project-card:nth-child(5) .project-preview {
+            background: linear-gradient(135deg, #000000 0%, #ffffff 100%);
+        }
+        .project-card:nth-child(6) .project-preview {
+            background: linear-gradient(135deg, #000000 0%, #ff00ff 100%);
+        }
+
+        .project-preview::before {
+            top: 0;
+            left: 0;
+        }
+
+        .project-preview::before {
+            z-index: 0;
+        }
+        
+        .project-preview > * {
+            position: relative;
+            z-index: 1;
+        }
+
+
+
+        .project-info {
+            padding: 25px;
+        }
+
+        .project-title {
+            font-size: 1.5em;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .project-description {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .project-link {
+            display: inline-block;
+            padding: 12px 30px;
+            background: linear-gradient(135deg, #000000 0%, #764ba2 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+
+        .project-link:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+            50% {
+                transform: scale(1.1);
+                opacity: 0.8;
+            }
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2em;
+            }
+            
+            .subtitle {
+                font-size: 1em;
+            }
+            
+            .projects-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>PROGETTI 2025/2026</h1>
+        
+        </header>
+
+        <div class="projects-grid">
+            <div class="project-card">
+                <div class="project-preview">
+                    <div class="preview-icon">❄️</div>
+                </div>
+                <div class="project-info">
+                    <h2 class="project-title">Koch snowflake</h2>
+                    <p class="project-description">
+                        Esplora la bellezza dei frattali con la Curva di Koch e il Fiocco di Neve. 
+                        Utilizza la grafica turtle per creare pattern geometrici ricorsivi affascinanti.
+                    </p>
+                    <a href="Snow.html" class="project-link">Visualizza Progetto</a>
+                </div>
+            </div>
+
+            <div class="project-card">
+                <div class="project-preview">
+                    <div class="preview-icon">🔄</div>
+                </div>
+                <div class="project-info">
+                    <h2 class="project-title">Successioni Autosomiglianti</h2>
+                    <p class="project-description">
+                        Scopri le curve frattali generate attraverso L-Systems: Curva di Koch, 
+                        Curva del Drago e Fiocco di Neve con controlli interattivi.
+                    </p>
+                    <a href="Succesioni.html" class="project-link">Visualizza Progetto</a>
+                </div>
+            </div>
+
+            <div class="project-card">
+                <div class="project-preview">
+                    <div class="preview-icon">🌳</div>
+                </div>
+                <div class="project-info">
+                    <h2 class="project-title">Albero Frattale</h2>
+                    <p class="project-description">
+                        Un albero ricorsivo che cresce attraverso la matematica dei frattali. 
+                        Osserva come la natura può essere ricreata con semplici regole ricorsive.
+                    </p>
+                    <a href="TREE.html" class="project-link">Visualizza Progetto</a>
+                </div>
+            </div>
+                <div class="project-card">
+                    <div class="project-preview">
+                        <div class="preview-icon">⭕</div>
+                    </div>
+                    <div class="project-info">
+                        <h2 class="project-title">Pi greco con punti casuali</h2>
+                        <p class="project-description">
+                            tramite un algoritmo si esegue la stima del pi greco, l'algritmo sarà poi visualizzato sul
+                            canvas 
+                        </p>
+                        <a href="monaco.html" class="project-link">Visualizza Progetto</a>
+                    </div>
+                </div>
+            <div class="project-card">
+                <div class="project-preview">
+                    <div class="preview-icon">⏢</div>
+                </div>
+                <div class="project-info">
+                    <h2 class="project-title">Pi greco con trapezi</h2>
+                    <p class="project-description">
+                        algoritmo che esegue una stima del pi greco, sezionando un quarto di circonferenza in piccoli trapezi
+                    </p>
+                    <a href="trapezi.html" class="project-link">Visualizza Progetto</a>
+                </div>
+            </div>
+            <div class="project-card">
+                <div class="project-preview">
+                    <div class="preview-icon">📈</div>
+                </div>
+                <div class="project-info">
+                    <h2 class="project-title">Geogebra</h2>
+                    <p class="project-description">
+                        algoritmo che rappresenta graficamente una funzione formata da polinomi
+                    </p>
+                    <a href="funzione.html" class="project-link">Visualizza Progetto</a>
+                </div>
+            </div>
+                
+
+        </div>
+
+
+
+        
+    </div>
+</body>
+</html>

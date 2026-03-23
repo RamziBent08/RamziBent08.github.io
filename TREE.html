@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Albero frattale</title>
+    <style>
+        body { margin: 0; overflow: hidden; background: hsl(0, 0%, 100%); }
+        canvas { display: block; }
+    </style>
+</head>
+<body>
+    <canvas id="MyCanvas"></canvas>
+    <script>
+        const canvas = document.getElementById("MyCanvas");
+        const c = canvas.getContext("2d");
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        c.fillStyle = "#0a1a0f";
+        c.fillRect(0, 0, canvas.width, canvas.height);
+        c.strokeStyle = "#999";
+        c.lineWidth = 2;
+
+        const tartaruga = {
+            pen: true,
+            x: canvas.width / 2, 
+            y: canvas.height - 80,
+            angle: -90,  
+
+            forward(dist) {
+                const rad = this.angle * Math.PI / 180;
+                const newX = this.x + dist * Math.cos(rad);
+                const newY = this.y + dist * Math.sin(rad);
+
+                if (this.pen) {
+                    c.beginPath();
+                    c.moveTo(this.x, this.y);
+                    c.lineTo(newX, newY);
+                    c.stroke();
+                }
+                this.x = newX;
+                this.y = newY;
+            },
+
+            turn(deg) {
+                this.angle += deg;
+            }
+        };
+         
+        function albero(t, lunghezza, profondita, maxProfondita) {
+            if (profondita > maxProfondita) return;
+
+            
+            t.forward(lunghezza);
+
+            if (profondita === maxProfondita) {
+                
+                return;
+            }
+
+            
+            const xSalva = t.x;
+            const ySalva = t.y;
+            const angoloSalva = t.angle;
+
+            
+            t.turn(30);
+            albero(t, lunghezza * 0.67, profondita + 1, maxProfondita);
+            
+            t.x = xSalva;
+            t.y = ySalva;
+            t.angle = angoloSalva;
+            t.turn(-30);
+            albero(t, lunghezza * 0.67, profondita + 1, maxProfondita);
+        }
+        const lunghezzaIniziale = 200;
+        const iterazioni = 15;
+        albero(tartaruga, lunghezzaIniziale, 0, iterazioni);
+
+    </script>
+</body>
+</html>
