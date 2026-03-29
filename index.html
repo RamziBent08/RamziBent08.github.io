@@ -3,16 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bentama Ahmed Ramzi - Portfolio</title>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <title>Bentama Ahmed Ramzi - 2025/26</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&family=Outfit:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary: #6366f1;
-            --secondary: #a855f7;
-            --accent: #22d3ee;
-            --bg: #0f172a;
-            --card-bg: rgba(255, 255, 255, 0.05);
-            --text: #f8fafc;
+            --bg: #0d0d0d;
+            --card-bg: #161616;
+            --accent: #ffb800; /* Oro/Ambra */
+            --accent-soft: rgba(255, 184, 0, 0.1);
+            --text-main: #ffffff;
+            --text-dim: #a0a0a0;
+            --border: #262626;
         }
 
         * {
@@ -22,15 +23,11 @@
         }
 
         body {
-            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-family: 'Outfit', sans-serif;
             background-color: var(--bg);
-            background-image: 
-                radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.15) 0px, transparent 50%),
-                radial-gradient(at 100% 100%, rgba(168, 85, 247, 0.15) 0px, transparent 50%);
-            color: var(--text);
-            min-height: 100vh;
-            padding: 60px 20px;
-            line-height: 1.6;
+            color: var(--text-main);
+            padding: 80px 20px;
+            line-height: 1.5;
         }
 
         .container {
@@ -39,207 +36,199 @@
         }
 
         header {
-            text-align: center;
-            margin-bottom: 80px;
-            position: relative;
+            margin-bottom: 100px;
+            border-left: 4px solid var(--accent);
+            padding-left: 30px;
         }
 
         h1 {
+            font-family: 'Space Grotesk', sans-serif;
             font-size: 3.5rem;
-            font-weight: 800;
-            background: linear-gradient(to right, var(--accent), var(--secondary));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            letter-spacing: -1px;
-            margin-bottom: 15px;
+            font-weight: 700;
+            letter-spacing: -2px;
             text-transform: uppercase;
         }
 
-        header::after {
-            content: '';
-            display: block;
-            width: 60px;
-            height: 4px;
-            background: var(--accent);
-            margin: 20px auto;
-            border-radius: 10px;
+        .year-label {
+            color: var(--accent);
+            font-weight: 600;
+            letter-spacing: 4px;
+            font-size: 0.9rem;
         }
 
+        /* Nuova Struttura Card Asimmetrica */
         .projects-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
             gap: 40px;
         }
 
         .project-card {
             background: var(--card-bg);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 24px;
-            overflow: hidden;
-            backdrop-filter: blur(12px);
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: 1px solid var(--border);
+            border-radius: 0px; /* Look brutale/moderno senza arrotondamenti eccessivi */
             display: flex;
-            flex-direction: column;
+            position: relative;
+            height: 280px;
+            transition: all 0.4s ease;
+            overflow: hidden;
         }
 
         .project-card:hover {
-            transform: translateY(-12px);
             border-color: var(--accent);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 0 0 20px rgba(34, 211, 238, 0.1);
+            transform: translateY(-5px);
         }
 
-        .project-preview {
-            height: 200px;
+        /* Numero di sfondo gigante */
+        .card-number {
+            position: absolute;
+            right: -10px;
+            bottom: -20px;
+            font-size: 10rem;
+            font-weight: 800;
+            color: rgba(255, 255, 255, 0.03);
+            font-family: 'Space Grotesk', sans-serif;
+            z-index: 0;
+        }
+
+        /* Sezione Icona Laterale */
+        .card-visual {
+            width: 120px;
+            background: var(--accent-soft);
             display: flex;
             align-items: center;
             justify-content: center;
-            position: relative;
-            background: rgba(0,0,0,0.2);
+            font-size: 2.5rem;
+            border-right: 1px solid var(--border);
+            transition: all 0.4s ease;
         }
 
-        /* Colori dinamici icone */
-        .project-card:nth-child(1) .preview-icon { color: #60a5fa; text-shadow: 0 0 20px rgba(96, 165, 250, 0.5); }
-        .project-card:nth-child(2) .preview-icon { color: #34d399; text-shadow: 0 0 20px rgba(52, 211, 153, 0.5); }
-        .project-card:nth-child(3) .preview-icon { color: #fbbf24; text-shadow: 0 0 20px rgba(251, 191, 36, 0.5); }
-        .project-card:nth-child(4) .preview-icon { color: #f87171; text-shadow: 0 0 20px rgba(248, 113, 113, 0.5); }
-        .project-card:nth-child(5) .preview-icon { color: #e879f9; text-shadow: 0 0 20px rgba(232, 121, 249, 0.5); }
-        .project-card:nth-child(6) .preview-icon { color: #22d3ee; text-shadow: 0 0 20px rgba(34, 211, 238, 0.5); }
-
-        .preview-icon {
-            font-size: 70px;
-            transition: transform 0.3s ease;
+        .project-card:hover .card-visual {
+            background: var(--accent);
+            color: var(--bg);
         }
 
-        .project-card:hover .preview-icon {
-            transform: scale(1.2) rotate(5deg);
-        }
-
-        .project-info {
-            padding: 30px;
-            flex-grow: 1;
+        /* Sezione Contenuto */
+        .card-content {
+            padding: 40px;
             display: flex;
             flex-direction: column;
+            justify-content: center;
+            z-index: 1;
+            flex: 1;
         }
 
         .project-title {
-            font-size: 1.4rem;
-            font-weight: 700;
-            margin-bottom: 12px;
-            color: #fff;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.6rem;
+            margin-bottom: 15px;
+            color: var(--accent);
         }
 
         .project-description {
+            color: var(--text-dim);
             font-size: 0.95rem;
-            color: #94a3b8;
             margin-bottom: 25px;
-            flex-grow: 1;
+            max-width: 90%;
         }
 
         .project-link {
-            display: inline-block;
-            padding: 12px 24px;
-            background: var(--text);
-            color: var(--bg);
             text-decoration: none;
-            border-radius: 12px;
-            font-weight: 700;
-            font-size: 0.9rem;
-            text-align: center;
-            transition: all 0.3s ease;
+            color: var(--text-main);
+            font-weight: 600;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
 
-        .project-link:hover {
+        .project-link::after {
+            content: "";
+            width: 30px;
+            height: 1px;
             background: var(--accent);
-            color: white;
-            box-shadow: 0 0 15px var(--accent);
+            transition: width 0.3s ease;
         }
 
-        /* Animazioni Ingresso */
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .project-card {
-            animation: fadeInUp 0.6s ease backwards;
+        .project-link:hover::after {
+            width: 60px;
         }
 
         @media (max-width: 768px) {
-            h1 { font-size: 2.2rem; }
-            body { padding: 40px 15px; }
+            .projects-grid { grid-template-columns: 1fr; }
+            .project-card { height: auto; flex-direction: column; }
+            .card-visual { width: 100%; height: 80px; border-right: none; border-bottom: 1px solid var(--border); }
+            h1 { font-size: 2.5rem; }
         }
     </style>
 </head>
 <body>
     <div class="container">
         <header>
-            <h1>PROGETTI 2025/2026</h1>
+            <p class="year-label">ARCHIVIO DIGITALE</p>
+            <h1>Progetti 25/26</h1>
         </header>
 
         <div class="projects-grid">
-            <div class="project-card" style="animation-delay: 0.1s">
-                <div class="project-preview">
-                    <div class="preview-icon">❄️</div>
-                </div>
-                <div class="project-info">
+            <div class="project-card">
+                <div class="card-number">01</div>
+                <div class="card-visual">❄️</div>
+                <div class="card-content">
                     <h2 class="project-title">Koch Snowflake</h2>
-                    <p class="project-description">Esplora la bellezza dei frattali con la Curva di Koch. Pattern geometrici ricorsivi creati con logica turtle.</p>
-                    <a href="Snow.html" class="project-link">Esplora Progetto</a>
+                    <p class="project-description">Esplorazione dei frattali ricorsivi e della geometria complessa applicata.</p>
+                    <a href="Snow.html" class="project-link">View Project</a>
                 </div>
             </div>
 
-            <div class="project-card" style="animation-delay: 0.2s">
-                <div class="project-preview">
-                    <div class="preview-icon">🔄</div>
-                </div>
-                <div class="project-info">
-                    <h2 class="project-title">Successioni</h2>
-                    <p class="project-description">Curve del Drago e L-Systems con controlli interattivi in tempo reale.</p>
-                    <a href="Succesioni.html" class="project-link">Esplora Progetto</a>
+            <div class="project-card">
+                <div class="card-number">02</div>
+                <div class="card-visual">🔄</div>
+                <div class="card-content">
+                    <h2 class="project-title">L-Systems</h2>
+                    <p class="project-description">Successioni autosomiglianti e algoritmi di crescita biologica simulata.</p>
+                    <a href="Succesioni.html" class="project-link">View Project</a>
                 </div>
             </div>
 
-            <div class="project-card" style="animation-delay: 0.3s">
-                <div class="project-preview">
-                    <div class="preview-icon">🌳</div>
-                </div>
-                <div class="project-info">
+            <div class="project-card">
+                <div class="card-number">03</div>
+                <div class="card-visual">🌳</div>
+                <div class="card-content">
                     <h2 class="project-title">Albero Frattale</h2>
-                    <p class="project-description">La natura ricreata attraverso semplici ma potenti regole matematiche ricorsive.</p>
-                    <a href="TREE.html" class="project-link">Esplora Progetto</a>
+                    <p class="project-description">Modellazione matematica di strutture organiche tramite ricorsione.</p>
+                    <a href="TREE.html" class="project-link">View Project</a>
                 </div>
             </div>
 
-            <div class="project-card" style="animation-delay: 0.4s">
-                <div class="project-preview">
-                    <div class="preview-icon">⭕</div>
-                </div>
-                <div class="project-info">
+            <div class="project-card">
+                <div class="card-number">04</div>
+                <div class="card-visual">⭕</div>
+                <div class="card-content">
                     <h2 class="project-title">Stima Pi Greco</h2>
-                    <p class="project-description">Visualizzazione dinamica del calcolo del Pi Greco tramite l'algoritmo dei punti casuali sul canvas.</p>
-                    <a href="monaco.html" class="project-link">Esplora Progetto</a>
+                    <p class="project-description">Algoritmi probabilistici e metodo Monte Carlo per il calcolo del Pi.</p>
+                    <a href="monaco.html" class="project-link">View Project</a>
                 </div>
             </div>
 
-            <div class="project-card" style="animation-delay: 0.5s">
-                <div class="project-preview">
-                    <div class="preview-icon">⏢</div>
-                </div>
-                <div class="project-info">
+            <div class="project-card">
+                <div class="card-number">05</div>
+                <div class="card-visual">⏢</div>
+                <div class="card-content">
                     <h2 class="project-title">Metodo Trapezi</h2>
-                    <p class="project-description">Approssimazione del Pi Greco sezionando la circonferenza in trapezi infinitesimali.</p>
-                    <a href="trapezi.html" class="project-link">Esplora Progetto</a>
+                    <p class="project-description">Integrazione numerica e approssimazione geometrica delle aree.</p>
+                    <a href="trapezi.html" class="project-link">View Project</a>
                 </div>
             </div>
 
-            <div class="project-card" style="animation-delay: 0.6s">
-                <div class="project-preview">
-                    <div class="preview-icon">📈</div>
-                </div>
-                <div class="project-info">
+            <div class="project-card">
+                <div class="card-number">06</div>
+                <div class="card-visual">📈</div>
+                <div class="card-content">
                     <h2 class="project-title">Geogebra JS</h2>
-                    <p class="project-description">Un motore grafico personalizzato per rappresentare funzioni polinomiali complesse.</p>
-                    <a href="funzione.html" class="project-link">Esplora Progetto</a>
+                    <p class="project-description">Rendering dinamico di funzioni polinomiali in ambiente web.</p>
+                    <a href="funzione.html" class="project-link">View Project</a>
                 </div>
             </div>
         </div>
