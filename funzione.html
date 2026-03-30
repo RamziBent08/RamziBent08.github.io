@@ -1,34 +1,108 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="it">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>La mia pagina</title>
-    <link rel="stylesheet" href="function.css">
+    <title>Grafico Funzioni Elegante</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f7f6;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            color: #333;
+        }
+
+        #canvas-container {
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            border-radius: 12px;
+            overflow: hidden;
+            background: white;
+            margin-bottom: 20px;
+        }
+
+        canvas {
+            display: block;
+            max-width: 100%;
+            height: auto;
+        }
+
+        .controls {
+            background: white;
+            padding: 20px 30px;
+            border-radius: 50px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        input[type="text"] {
+            border: 2px solid #ddd;
+            padding: 10px 15px;
+            border-radius: 25px;
+            outline: none;
+            transition: border-color 0.3s;
+            font-size: 16px;
+        }
+
+        input[type="text"]:focus {
+            border-color: #3498db;
+        }
+
+        button {
+            cursor: pointer;
+            border: none;
+            padding: 10px 25px;
+            border-radius: 25px;
+            font-weight: 600;
+            transition: all 0.3s;
+            font-size: 15px;
+        }
+
+        .draw-btn {
+            background-color: #3498db;
+            color: white;
+        }
+
+        .draw-btn:hover {
+            background-color: #2980b9;
+            transform: translateY(-2px);
+        }
+
+        .clear-btn {
+            background-color: #e74c3c;
+            color: white;
+        }
+
+        .clear-btn:hover {
+            background-color: #c0392b;
+            transform: translateY(-2px);
+        }
+
+        label {
+            font-weight: bold;
+            color: #555;
+        }
+    </style>
 </head>
 <body>
-    <canvas id="turtle" width="1000" height="1000"></canvas>
-    <script src = "function.js"></script>
-    <label for="name">scrivi la tua funzione qui</label>
 
-<input
-  type="text"
-  id="funzione"
-  name="name"
-  required
-  size="8" />
-  <button class="draw-btn" onclick="disegnafunzione(), recuperaValore()">disegna</button>
-  <button class="clear-btn" onclick="clearCanvas()">cancella</button>
+    <div id="canvas-container">
+        <canvas id="turtle" width="800" height="600"></canvas>
+    </div>
 
-  <label for="punto">trova il punto</label>
+    <div class="controls">
+        <label for="funzione">f(x) =</label>
+        <input type="text" id="funzione" placeholder="es: 2x2 + 3x - 1" size="15" />
+        
+        <button class="draw-btn" onclick="disegnafunzione()">Disegna la tua funzione</button>
+        
+        <button class="clear-btn" onclick="clearCanvas()">Cancella tutto</button>
+    </div>
 
-<input
-  type="text"
-  id="punto"
-  name="punto"
-  required
-  size="8" />
-
-    <button class="find-btn" onclick="findpoint(recuperaValorex())">trova</button>
+    <script src="function.js"></script>
 </body>
 </html>
