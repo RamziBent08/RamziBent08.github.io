@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Memory Game</title>
+    <style>
+        body {
+            background-color: #1a2a6c; 
+            color: white;
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+        h1 { 
+        margin-top: 20px;
+        }
+
+        .game-container {
+            display: grid;
+            grid-template-columns: repeat(4, 80px);
+            gap: 10px;
+            perspective: 1000px;
+            margin-top: 20px;
+        }
+
+        .card {
+            width: 80px;
+            height: 80px;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.5s ease; 
+            cursor: pointer;
+        }
+        .card.flipped { transform: rotateY(180deg); }
+    
+        /*matched serve a bloccare le carte già indovinate */
+        card.matched { 
+        cursor: default; 
+        }
+        .card-front, .card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            border-radius: 8px;
+            border: 2px solid rgba(255,255,255,0.2);
+        }
+        .card-front {
+            background-color: #007bff;
+            color: white;
+        }
+        .card-back {
+            background-color: #101a40; 
+            transform: rotateY(180deg);
+        }
+        button {
+         margin-top: 30px;
+        padding: 10px 25px;
+        font-size: 1rem;
+        background-color: #007bff;
+        color: white;
+        border: 1px solid white;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: 0.3s;
+        }
+        button:hover {
+         background-color: #0056b3; 
+        }
+        p { margin-top: 20px; font-size: 0.8rem; opacity: 0.8; }
+    </style>
+    </head>
+       <body>
+     <h1>Emoji Memory</h1>
+    <div id="gameBoard" class="game-container"></div>
+    <button onclick="startGame()">Ricomincia Partita</button>
+    <p>Copyright © Bentama Ahmed Ramzi</p>
+    <script>
+        const icons = ['🔥', '🔥', '🚀', '🚀', '💻', '💻', '👾', '👾', '💎', '💎', '🍕', '🍕', '🎸', '🎸', '🌈', '🌈'];
+        let flipped = [];
+        function startGame() {
+        const board = document.getElementById('gameBoard');
+        board.innerHTML = '';
+        flipped = [];
+        const shuffled = [...icons].sort(() => Math.random() - 0.5);
+        shuffled.forEach(emoji => {
+                 const card = document.createElement('div');
+            card.classList.add('card');
+            card.innerHTML = `<div class="card-front">?</div><div class="card-back">${emoji}</div>`;
+            card.onclick = () => flip(card);
+            board.appendChild(card);
+            });
+        }
+        function flip(card) {
+            //non girare se sono già 2, se è la stessa o se è già stata indovinata (matched)
+            if (flipped.length >= 2 || card === flipped[0] || card.classList.contains('matched')) return;
+            card.classList.add('flipped');
+            flipped.push(card);
+            if (flipped.length === 2) check();
+        }
+        function check() {
+            const [a, b] = flipped;
+            const match = a.querySelector('.card-back').innerText === b.querySelector('.card-back').innerText;
+            if (match) {
+                a.classList.add('matched');
+                b.classList.add('matched');
+                flipped = [];
+                // Se tutte le carte  hanno la classe flipped si vince 
+                setTimeout(() => {
+                 const allMatched = document.querySelectorAll('.card.matched').length;
+                if (allMatched === icons.length) {
+                 alert("Complimenti! Hai trovato tutte le coppie! 🎉");
+                    }
+                }, 500); 
+            } else {
+                setTimeout(() => {
+                a.classList.remove('flipped');
+                 b.classList.remove('flipped');
+                 flipped = [];
+                }, 1000);
+        }
+        }
+        window.onload = startGame;
+    </script>
+    </body>
+    </html>
