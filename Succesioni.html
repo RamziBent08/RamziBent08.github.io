@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Frattali - Successioni Autosomiglianti</title>
+    <title>Frattali Autosomiglianti - Centrati</title>
     <style>
-        
+        /* Reset e Font moderno */
         * {
             box-sizing: border-box;
             margin: 0;
@@ -13,9 +13,9 @@
         }
 
         body {
-            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            background-color: #f0f2f5;
-            color: #1c1e21;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f0f4f8;
+            color: #2d3748;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -24,79 +24,73 @@
 
         h1 {
             font-weight: 300;
-            font-size: 2.5rem;
-            margin-bottom: 30px;
-            color: #2c3e50;
-            letter-spacing: -1px;
+            font-size: 2.2rem;
+            margin-bottom: 25px;
+            color: #1a202c;
         }
 
-        /* Contenitore dei controlli */
+        /* Contenitore pulsanti elegante */
         .controls {
             background: white;
-            padding: 15px 30px;
-            border-radius: 50px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            padding: 12px 24px;
+            border-radius: 40px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
             display: flex;
             gap: 15px;
             margin-bottom: 30px;
-        }
-
-      
-        button {
-            border: none;
-            background-color: #ffffff;
-            color: #4a5568;
-            padding: 12px 24px;
-            font-size: 15px;
-            font-weight: 600;
-            cursor: pointer;
-            border-radius: 25px;
-            transition: all 0.3s ease;
             border: 1px solid #e2e8f0;
         }
 
+        /* Pulsante personalizzato */
+        button {
+            border: 1px solid transparent;
+            background-color: transparent;
+            color: #4a5568;
+            padding: 10px 22px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            border-radius: 30px;
+            transition: all 0.25s ease;
+        }
+
         button:hover {
-            background-color: #2c3e50;
+            background-color: #2d3748;
             color: white;
-            border-color: #2c3e50;
-            transform: translateY(-2px);
+            transform: translateY(-1px);
         }
 
-        button:active {
-            transform: translateY(0);
-        }
-
-        /* Styling del Canvas */
+        /* Canvas Wrapper per l'effetto elevazione */
         #canvas-wrapper {
             background: white;
-            padding: 10px;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            padding: 15px;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.06);
+            border: 1px solid #edf2f7;
         }
 
         canvas {
             display: block;
             background-color: white;
-            border-radius: 8px;
         }
     </style>
 </head>
 <body>
 
-    <h1>Successioni Frattali</h1>
+    <h1>Geometrie Frattali</h1>
 
     <div class="controls">
         <button onclick="disegnaCurvaKoch()">Curva di Koch</button>
         <button onclick="disegnaFiocco()">Fiocco di Neve</button>
-        <button onclick="pulisci()">Svuota Canvas</button>
+        <button onclick="pulisci()">Svuota</button>
     </div>
 
     <div id="canvas-wrapper">
-        <canvas id="canvas" width="900" height="600"></canvas>
+        <canvas id="canvas" width="850" height="550"></canvas>
     </div>
 
     <script>
-        // Classe Turtle per gestire il disegno direzionale
+        // Gestisce il movimento della "tartaruga" sul piano cartesiano
         class Turtle {
             constructor(ctx, x, y) {
                 this.ctx = ctx;
@@ -105,6 +99,7 @@
                 this.angolo = 0; 
             }
 
+            // Traccia una linea dritta nella direzione attuale
             avanti(distanza) {
                 const radianti = this.angolo * Math.PI / 180;
                 const nuovoX = this.x + distanza * Math.cos(radianti);
@@ -119,16 +114,14 @@
                 this.y = nuovoY;
             }
 
-            destra(gradi) {
-                this.angolo += gradi;
-            }
+            // Cambia l'angolo verso destra
+            destra(gradi) { this.angolo += gradi; }
 
-            sinistra(gradi) {
-                this.angolo -= gradi;
-            }
+            // Cambia l'angolo verso sinistra
+            sinistra(gradi) { this.angolo -= gradi; }
         }
 
-        // Funzione per generare la stringa di istruzioni L-System
+        // Applica le regole di sostituzione (L-System) per generare la stringa frattale
         function generaSuccessione(assioma, regole, iterazioni) {
             let stringa = assioma;
             for (let i = 0; i < iterazioni; i++) {
@@ -141,60 +134,65 @@
             return stringa;
         }
 
-        // Interprete dei comandi per la tartaruga
+        // Converte i simboli della stringa in movimenti reali della Turtle
         function eseguiComandi(turtle, comandi, distanza, angolo) {
             for (let comando of comandi) {
                 switch(comando) {
-                    case 'F': 
-                        turtle.avanti(distanza);
-                        break;
-                    case '+': 
-                        turtle.destra(angolo);
-                        break;
-                    case '-': 
-                        turtle.sinistra(angolo);
-                        break;
+                    case 'F': turtle.avanti(distanza); break;
+                    case '+': turtle.destra(angolo); break;
+                    case '-': turtle.sinistra(angolo); break;
                 }
             }
         }
 
-        // Funzione principale di disegno
+        // Funzione di base per inizializzare il disegno e impostare lo stile della linea
         function disegna(assioma, regole, iterazioni, distanza, angolo, startX, startY) {
             const canvas = document.getElementById('canvas');
             const ctx = canvas.getContext('2d');
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             
-            // Colore del tratto elegante (Blu scuro/Slate)
-            ctx.strokeStyle = '#2c3e50';
-            ctx.lineWidth = 1.5;
+            ctx.strokeStyle = '#2d3748'; // Grigio antracite elegante
+            ctx.lineWidth = 1.2;
+            ctx.lineCap = 'round';
             
             const successione = generaSuccessione(assioma, regole, iterazioni);
             const turtle = new Turtle(ctx, startX, startY);
             eseguiComandi(turtle, successione, distanza, angolo);
         }
         
-        // Logica specifica per la Curva di Koch
+        // Calcola la posizione centrale e disegna la Curva di Koch
         function disegnaCurvaKoch() {
-            const assioma = 'F';
-            const regole = { 'F': 'F+F-F-F+F' };
-            disegna(assioma, regole, 4, 6, 90, 50, 400);
+            const canvas = document.getElementById('canvas');
+            const distanza = 5;
+            const iterazioni = 4;
+            // Calcolo approssimativo della larghezza per centrarla
+            const larghezzaTotale = 405; 
+            const startX = (canvas.width - larghezzaTotale) / 2;
+            const startY = canvas.height * 0.75; // Posizionata verso il basso
+
+            disegna('F', { 'F': 'F+F-F-F+F' }, iterazioni, distanza, 90, startX, startY);
         }
 
-        // Logica specifica per il Fiocco di Neve di Koch
+        // Calcola la posizione centrale e disegna il Fiocco di Neve
         function disegnaFiocco() {
-            const assioma = 'F++F++F';
-            const regole = { 'F': 'F-F++F-F' };
-            disegna(assioma, regole, 4, 5, 60, 300, 450);
+            const canvas = document.getElementById('canvas');
+            const distanza = 4;
+            const iterazioni = 4;
+            // Centratura dinamica basata sulle dimensioni del canvas
+            const startX = canvas.width / 2 - 160; 
+            const startY = canvas.height / 2 - 140;
+
+            disegna('F++F++F', { 'F': 'F-F++F-F' }, iterazioni, distanza, 60, startX, startY);
         }
 
-        // Funzione per ripulire il foglio
+        // Pulisce completamente l'area di disegno
         function pulisci() {
             const canvas = document.getElementById('canvas');
             const ctx = canvas.getContext('2d');
             ctx.clearRect(0, 0, canvas.width, canvas.height);
         }
 
-        // Avvio automatico con la prima curva
+        // Al caricamento mostra subito il primo disegno centrato
         window.onload = disegnaCurvaKoch;
     </script>
 
