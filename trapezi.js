@@ -1,4 +1,4 @@
-// Variabili globali
+
 let x = 0;           
 let y = 0;           
 let dentro = 0;       
@@ -10,7 +10,7 @@ let pi = 0;
 const canvas = document.getElementById("turtle");
 const ctx = canvas.getContext("2d");
 
-// Oggetto "tartaruga" stile turtle graphics
+
 const turtle = {
     x: 0,            
     y: 0,             
