@@ -6,25 +6,25 @@ let spari = 100000;   // numero totale di punti da generare
 let radius = 500;     
 let pi = 0;           
 
-// Canvas e contesto grafico
+
 const canvas = document.getElementById("turtle");
 const ctx = canvas.getContext("2d");
 
-// Oggetto "tartaruga" per disegnare (stile turtle graphics)
+
 const turtle = {
-    x: 0,              // posizione X corrente
-    y: 0,              // posizione Y corrente
-    angle: 0,          // angolo di direzione (in gradi)
+    x: 0,              
+    y: 0,              
+    angle: 0,          
     pendown: true,     // se true disegna mentre si muove
     color: "lightblue",
     name: "tartaruga",
 
-    // Ruota la tartaruga di un certo angolo
+    
     turn: (a) => {
         turtle.angle += a;
     },
 
-    // Muove la tartaruga in avanti di p pixel
+    
     forward: (p) => {
         ctx.moveTo(turtle.x, turtle.y);
 
@@ -45,7 +45,7 @@ const turtle = {
         turtle.y = y2;
     },
 
-    // Sposta la tartaruga senza usare angolo (movimento diretto)
+    /
     move: (x, y) => {
         this.x = this.x + x;
         this.y = this.y + y;
@@ -53,7 +53,7 @@ const turtle = {
     }
 }
 
-// Disegna un quadrato usando la tartaruga
+// Disegna un quadrato 
 let square = function () {
     turtle.turn(90);
     turtle.forward(1000);
